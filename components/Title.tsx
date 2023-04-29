@@ -11,7 +11,7 @@ const Title = (props: Props) => {
       <Head>
         <title>{props.webTitle}</title>
       </Head>
-      <Text>{props.title}</Text>
+      <Text fontSize="3xl">{props.title}</Text>
     </div>
   );
 };

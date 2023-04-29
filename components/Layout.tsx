@@ -13,7 +13,7 @@ const Layout = ({ children }: MyComponentProps) => {
       <Flex>
         <Sidebar />
         <Grid p="5" bgColor="rgb(245, 245, 245)" w="full">
-          {children}
+          <div>{children}</div>
         </Grid>
       </Flex>
     </div>

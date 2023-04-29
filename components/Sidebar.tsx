@@ -1,10 +1,13 @@
-import { Grid, Flex, Text } from "@chakra-ui/react";
+import { Grid, Flex, Icon } from "@chakra-ui/react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { BiCoinStack, BiCoin } from "react-icons/bi";
+
 interface ListItemSidebar {
   path?: string;
   title: string;
+  icon?: any;
 }
 
 const Sidebar = () => {
@@ -19,10 +22,12 @@ const Sidebar = () => {
     {
       path: "/pemasukan",
       title: "Pemasukan",
+      icon: BiCoinStack,
     },
     {
       path: "/pengeluaran",
       title: "Pengeluaran",
+      icon: BiCoin,
     },
   ];
   console.log(path === "/dashboard");
@@ -31,7 +36,7 @@ const Sidebar = () => {
     <Grid
       py=""
       borderRight="1px solid #ebe9e7"
-      w="240px"
+      w="270px"
       minH="100vh"
       shadow="xl"
     >
@@ -66,8 +71,8 @@ const Sidebar = () => {
               ) : (
                 ""
               )}
-
-              <li>{val.title}</li>
+              <Icon as={val?.icon} />
+              <li style={{ marginLeft: "13px" }}>{val.title}</li>
             </Flex>
           </Link>
         ))}
