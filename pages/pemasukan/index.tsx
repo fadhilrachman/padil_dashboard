@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Layout>
-        <Title />
+        <Title title="Pemasukan" webTitle="padil | pemasukan" />
       </Layout>
     </>
   );
