@@ -1,13 +1,52 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import React from "react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
 import Title from "@/components/Title";
-import { Button, Flex, Grid, Input } from "@chakra-ui/react";
+import { Button, Flex, Card, Input, CardBody } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiTrash, BiPencil } from "react-icons/bi";
+import BaseTable from "@/components/BaseTable";
+
+interface Column {
+  index?: string;
+  title: string;
+  render?: React.ReactNode;
+}
 export default function Home() {
+  const column = [
+    {
+      index: "tanggal",
+      title: "Tanngal",
+    },
+    {
+      index: "total_pemasukan",
+      title: "Total Pemasukan",
+    },
+    {
+      index: "deskripsi",
+      title: "Deskripsi",
+    },
+    {
+      title: "Action",
+      render: () => (
+        <>
+          <Button variant="solid">
+            <Icon as={BiPencil} />
+          </Button>
+          <Button variant="solid" ml="2">
+            <Icon as={BiTrash} />
+          </Button>
+        </>
+      ),
+    },
+  ];
+  const data = [
+    {
+      tanggal: "21-09-04",
+      total_pemasukan: 20000,
+      deskripsi: "coyy",
+    },
+  ];
   return (
     <>
       <Layout>
@@ -25,6 +64,7 @@ export default function Home() {
           </Flex>
           <Button colorScheme="teal">Tambah Data</Button>
         </Flex>
+        <BaseTable column={column} data={data} />
       </Layout>
     </>
   );
