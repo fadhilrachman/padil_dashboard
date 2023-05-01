@@ -14,6 +14,8 @@ const Sidebar = () => {
   const [item, setItem] = useState<string>("Dashboard");
   const router = useRouter();
   const path = router.pathname;
+  console.log(path.split("/")[1]);
+
   const listSidebar: ListItemSidebar[] = [
     {
       path: "/dashboard",
@@ -45,7 +47,8 @@ const Sidebar = () => {
           <Link href={`${val.path}`}>
             <Flex
               className={`${
-                val.path?.toLowerCase() !== path.toLowerCase()
+                val.path?.split("/")[1]?.toLowerCase() !==
+                path.split("/")[1]?.toLowerCase()
                   ? "hover2"
                   : "hover"
               }`}
@@ -53,12 +56,14 @@ const Sidebar = () => {
               px="4"
               align="center"
               color={`${
-                val.path?.toLowerCase() == path.toLowerCase() && "teal"
+                val.path?.split("/")[1]?.toLowerCase() ==
+                  path.split("/")[1]?.toLowerCase() && "teal"
               }`}
               //   onClick={() => setItem(val.path)}
-              // bg={`${val.path?.toLowerCase() == item.toLowerCase() && "#dffffe"}`}
+              // bg={`${val.path?.split('/')[1]?.toLowerCase() == item.toLowerCase() && "#dffffe"}`}
             >
-              {path.toLowerCase() == val.path?.toLowerCase() ? (
+              {path.split("/")[1]?.toLowerCase() ==
+              val.path?.split("/")[1]?.toLowerCase() ? (
                 <div
                   style={{
                     backgroundColor: "#319795",

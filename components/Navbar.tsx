@@ -1,14 +1,20 @@
-import { Grid } from "@chakra-ui/react";
+import { Button, Flex, Grid } from "@chakra-ui/react";
+import Link from "next/link";
 const Navbar = () => {
   return (
-    <Grid
+    <Flex
       border="1px solid #ebe9e7"
       px="12"
       py="7"
       // backgroundColor="teal."
+      alignItems="center"
+      justifyContent="space-between"
     >
-      Navbar
-    </Grid>
+      <span>Navbar</span>
+      <Link href="/login">
+        <Button colorScheme="teal">Login</Button>
+      </Link>
+    </Flex>
   );
 };
 

@@ -16,11 +16,14 @@ export default function Home() {
               bg="white"
               placeholder="cari...."
             />
+
             <Button bg="white" ml="3">
               <Icon as={BiSearch} />
             </Button>
           </Flex>
-          <Button colorScheme="teal">Tambah Data</Button>
+          <Link href="/pemasukan/create">
+            <Button colorScheme="teal">Tambah Data</Button>
+          </Link>
         </Flex>
       </Layout>
     </>

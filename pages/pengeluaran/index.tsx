@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
 import Title from "@/components/Title";
@@ -6,21 +6,35 @@ import { Button, Flex, Card, Input, CardBody } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
 import { BiSearch, BiTrash, BiPencil } from "react-icons/bi";
 import BaseTable from "@/components/BaseTable";
+import axios from "axios";
 
-interface Column {
-  index?: string;
-  title: string;
-  render?: React.ReactNode;
-}
 export default function Home() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [datas, setDatas] = useState<any>();
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/pengeluaran")
+      .then((val) => {
+        console.log({ val });
+        setDatas(val.data.data);
+      })
+      .catch((err) => {
+        console.log({ err });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+  console.log({ datas });
+
   const column = [
     {
       index: "tanggal",
       title: "Tanngal",
     },
     {
-      index: "total_pemasukan",
-      title: "Total Pemasukan",
+      index: "total_pengeluaran",
+      title: "Total Pengeluaran",
     },
     {
       index: "deskripsi",
@@ -50,7 +64,7 @@ export default function Home() {
   return (
     <>
       <Layout>
-        <Title title="Pengeluaran" webTitle="padil | pengeluaran" />
+        <Title title="Pengeluaran" webTitle="padil || pengeluaran" />
         <Flex alignItems="center" mt="4" justifyContent="space-between">
           <Flex alignItems="center">
             <Input
@@ -58,13 +72,16 @@ export default function Home() {
               bg="white"
               placeholder="cari...."
             />
+
             <Button bg="white" ml="3">
               <Icon as={BiSearch} />
             </Button>
           </Flex>
-          <Button colorScheme="teal">Tambah Data</Button>
+          <Link href="/pengeluaran/create">
+            <Button colorScheme="teal">Tambah Data</Button>
+          </Link>
         </Flex>
-        <BaseTable column={column} data={data} />
+        <BaseTable column={column} loading={loading} data={datas} />
       </Layout>
     </>
   );
