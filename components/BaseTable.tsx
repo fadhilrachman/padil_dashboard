@@ -58,7 +58,7 @@ const BaseTable = (props: Props) => {
                   </Td>
                 </Tr>
               ) : (
-                props.data.map((valData: any, key: number) => (
+                props.data?.map((valData: any, key: number) => (
                   <Tr>
                     <Td>{key + 1}</Td>
                     {props.column.map((valColumn: Column) =>
