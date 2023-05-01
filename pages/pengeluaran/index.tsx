@@ -7,9 +7,15 @@ import { Icon } from "@chakra-ui/react";
 import { BiSearch, BiTrash, BiPencil } from "react-icons/bi";
 import BaseTable from "@/components/BaseTable";
 import axios from "axios";
+import ModalDelete from "@/components/ModalDelete";
 
+interface Modal {
+  is_active: boolean;
+  id: string;
+}
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
+  const [modal, setModal] = useState<Modal>({ is_active: false, id: "" });
   const [datas, setDatas] = useState<any>();
   useEffect(() => {
     axios
@@ -24,7 +30,7 @@ export default function Home() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [modal.id]);
   console.log({ datas });
 
   const column = [
@@ -42,25 +48,28 @@ export default function Home() {
     },
     {
       title: "Action",
-      render: () => (
+      render: (val, item) => (
         <>
           <Button variant="solid">
             <Icon as={BiPencil} />
           </Button>
-          <Button variant="solid" ml="2">
+          <Button
+            variant="solid"
+            ml="2"
+            onClick={() => {
+              console.log(item);
+              setModal({ is_active: true, id: item._id });
+            }}
+          >
             <Icon as={BiTrash} />
           </Button>
         </>
       ),
     },
   ];
-  const data = [
-    {
-      tanggal: "21-09-04",
-      total_pemasukan: 20000,
-      deskripsi: "coyy",
-    },
-  ];
+  const handleDelete = async () => {
+    await axios.delete(`http://localhost:4000/pengeluaran/${modal.id}`);
+  };
   return (
     <>
       <Layout>
@@ -82,6 +91,11 @@ export default function Home() {
           </Link>
         </Flex>
         <BaseTable column={column} loading={loading} data={datas} />
+        <ModalDelete
+          show={modal.is_active}
+          close={() => setModal(false)}
+          onClick={handleDelete}
+        />
       </Layout>
     </>
   );
