@@ -35,6 +35,7 @@ const login = () => {
             <FormControl>
               <FormLabel>Email</FormLabel>
               <Input
+                type="email"
                 placeholder="user@gmail.com"
                 isInvalid={errors.email}
                 focusBorderColor={errors.email ? "#ff0000" : "#319795"}

@@ -8,23 +8,47 @@ import {
   FormHelperText,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/router";
+
+interface Form {
+  nama: string;
+  email: string;
+  password: string;
+  cofirm_password: string;
+}
 const Register = () => {
   const router = useRouter();
+  const toast = useToast();
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
-  const handleRegister = async (val: any) => {
+    watch,
+    reset,
+  } = useForm<Form>();
+  const handleRegister = (val: any) => {
     console.log(val);
-    await axios.post("http://localhost:4000/user", val);
-    router.push("/login");
+    axios
+      .post("http://localhost:4000/user", val)
+      .then(() => router.push("/login"))
+      .catch((err) => {
+        console.log({ err });
+
+        toast({
+          title: err.response.data.message,
+          position: "top-right",
+          status: "error",
+          isClosable: true,
+        });
+      });
+    reset();
   };
+
   return (
     <Flex
       bgColor="rgb(245, 245, 245)"
@@ -77,6 +101,7 @@ const Register = () => {
                 isInvalid={errors.password}
                 focusBorderColor={errors.password ? "#ff0000" : "#319795"}
                 {...register("password", {
+                  minLength: { value: 6, message: "minimal 6 karakter" },
                   required: "kolom ini wajib diisi",
                 })}
               />
@@ -97,6 +122,11 @@ const Register = () => {
                 }
                 {...register("confirm_password", {
                   required: "kolom ini wajib diisi",
+                  validate: (val: string) => {
+                    if (errors.password || val !== watch("password")) {
+                      return "password error";
+                    }
+                  },
                 })}
               />
               {errors.confirm_password && (
