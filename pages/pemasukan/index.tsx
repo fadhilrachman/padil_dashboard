@@ -17,9 +17,17 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [modal, setModal] = useState<Modal>({ is_active: false, id: "" });
   const [datas, setDatas] = useState<any>();
+  let token: any = "";
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+  console.log({ token });
+
   useEffect(() => {
     axios
-      .get("http://localhost:4000/pemasukan")
+      .get("http://localhost:4000/pemasukan", {
+        headers: { Authorization: token },
+      })
       .then((val) => {
         console.log({ val });
         setDatas(val.data.data);
@@ -68,7 +76,9 @@ export default function Home() {
     },
   ];
   const handleDelete = async () => {
-    await axios.delete(`http://localhost:4000/pemasukan/${modal.id}`);
+    await axios.delete(`http://localhost:4000/pemasukan/${modal.id}`, {
+      headers: { Authorization: token },
+    });
   };
   return (
     <>

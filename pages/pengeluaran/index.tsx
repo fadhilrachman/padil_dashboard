@@ -8,18 +8,26 @@ import { BiSearch, BiTrash, BiPencil } from "react-icons/bi";
 import BaseTable from "@/components/BaseTable";
 import axios from "axios";
 import ModalDelete from "@/components/ModalDelete";
+import { useRouter } from "next/router";
 
 interface Modal {
   is_active: boolean;
   id: string;
 }
 export default function Home() {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [modal, setModal] = useState<Modal>({ is_active: false, id: "" });
   const [datas, setDatas] = useState<any>();
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     axios
-      .get("http://localhost:4000/pengeluaran")
+      .get("http://localhost:4000/pengeluaran", {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((val) => {
         console.log({ val });
         setDatas(val.data.data);
@@ -68,7 +76,9 @@ export default function Home() {
     },
   ];
   const handleDelete = async () => {
-    await axios.delete(`http://localhost:4000/pengeluaran/${modal.id}`);
+    await axios.delete(`http://localhost:4000/pengeluaran/${modal.id}`, {
+      headers: { Authorization: token },
+    });
   };
   return (
     <>

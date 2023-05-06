@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 
 const Create = () => {
   const router = useRouter();
+  const token = localStorage.getItem("token");
   const {
     register,
     watch,
@@ -28,7 +29,9 @@ const Create = () => {
   console.log(errors);
 
   const onSubmit = async (val: any) => {
-    await axios.post("http://localhost:4000/pemasukan", val);
+    await axios.post("http://localhost:4000/pemasukan", val, {
+      headers: { Authorization: token },
+    });
     console.log(val);
     router.push("/pemasukan");
   };

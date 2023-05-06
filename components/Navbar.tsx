@@ -1,6 +1,11 @@
-import { Button, Flex, Grid } from "@chakra-ui/react";
+import { Button, Flex, Grid, Text } from "@chakra-ui/react";
 import Link from "next/link";
 const Navbar = () => {
+  let token: any = "";
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+
   return (
     <Flex
       border="1px solid #ebe9e7"
@@ -10,10 +15,14 @@ const Navbar = () => {
       alignItems="center"
       justifyContent="space-between"
     >
-      <span>Navbar</span>
-      <Link href="/login">
-        <Button colorScheme="teal">Login</Button>
-      </Link>
+      <span>Padil Dashboard</span>
+      {token ? (
+        <Text>Selamat Datang User</Text>
+      ) : (
+        <Link href="/login">
+          <Button colorScheme="teal">Login</Button>
+        </Link>
+      )}
     </Flex>
   );
 };

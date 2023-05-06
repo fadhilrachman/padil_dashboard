@@ -8,19 +8,41 @@ import {
   FormHelperText,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 const login = () => {
+  const toast = useToast();
+  const router = useRouter();
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
   const handleLogin = async (val: any) => {
     console.log(val);
-    await axios.post("http://localhost:4000/login", val);
+    axios
+      .post("http://localhost:4000/login", val)
+      .then((respon) => {
+        console.log({ respon });
+        localStorage.setItem("token", respon.data.token);
+        router.push("/dashboard");
+      })
+      .catch((err) => {
+        console.log({ err });
+
+        toast({
+          title: err.response.data.message,
+          position: "top-right",
+          status: "error",
+          isClosable: true,
+        });
+      });
+    reset();
   };
   return (
     <Flex
